@@ -2,10 +2,6 @@
 %read data
 clear ;
 data=fitsread('pMC067150424B0001.fit');
-load('M67Bbias.mat');
-load('M67Bflat.mat');%平场与暗场
-[m,n]=size(data);
-data =sum(sum(flat_data-bias_data))/m/n*(data-bias_data)./(flat_data-bias_data);%平场暗场改正
  %% raw image  original picture
  figure('Name','original picture');
  imshow(data, []); 
@@ -19,13 +15,13 @@ data =sum(sum(flat_data-bias_data))/m/n*(data-bias_data)./(flat_data-bias_data);
  imshow(normalData,[]);
  
  %% image openning
-% se1 = strel('disk', 10);%构造一个圆盘形状的20×20大小的元素 
-% openData = imopen(normalData, se1);%进行开操作
-% diffData=normalData-openData;
-%   figure('Name','diff image')
-%  imshow(diffData);
+ se1 = strel('disk', 10);%构造一个圆盘形状的20×20大小的元素 
+ openData = imopen(normalData, se1);%进行开操作
+ diffData=normalData-openData;
+   figure('Name','diff image')
+  imshow(diffData);
 backgroundthreshold= mean(median(normalData(500:1500,500:1500)))...
-    +3*std(median(normalData(500:1500,500:1500)));%阈值就是先取中位数再平均
+    +30*std(median(normalData(500:1500,500:1500)));%阈值就是先取中位数再平均
 asteroid=normalData>backgroundthreshold;
 %asteroid=diffData>backgroundthreshold;
   figure('Name','indicator image');
