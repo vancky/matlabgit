@@ -15,13 +15,15 @@ data=fitsread('pMC067150424B0001.fit');
  imshow(normalData,[]);
  
  %% image openning
- se1 = strel('disk', 10);%构造一个圆盘形状的20×20大小的元素 
- openData = imopen(normalData, se1);%进行开操作
- diffData=normalData-openData;
-   figure('Name','diff image')
-  imshow(diffData);
+%  se1 = strel('disk', 3);%构造一个圆盘形状的20×20大小的元素 
+%  openData = imopen(normalData, se1);%进行开操作
+ %imshow(openData,[]);
+ %diffData=normalData-openData;
+ %  figure('Name','diff image')
+ % imshow(diffData);
 backgroundthreshold= mean(median(normalData(500:1500,500:1500)))...
-    +30*std(median(normalData(500:1500,500:1500)));%阈值就是先取中位数再平均
+    +50*std(median(normalData(500:1500,500:1500)));%阈值就是先取中位数再平均
+%asteroid=openData>backgroundthreshold;
 asteroid=normalData>backgroundthreshold;
 %asteroid=diffData>backgroundthreshold;
   figure('Name','indicator image');
@@ -36,6 +38,7 @@ asteroid=normalData>backgroundthreshold;
   %imshow(bwperim(ep_asteroid));
  %% find the centeral points
  tmpData = bwmorph(ep_asteroid, 'thicken');%边界加粗
+ imshow(tmpData);
  centerData = bwmorph(tmpData,'shrink',Inf);%图像收缩至一点
  figure('Name','centeral points');
  imshow(centerData);

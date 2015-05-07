@@ -16,11 +16,11 @@ function stars=ccd_Calculate_For_M67(data)
  %update for M67
 normalData=data;%mat2gray(data,[0,10000]);
 % image openning
-%se1 = strel('disk', 10);%构造一个圆盘形状的20×20大小的元素 
+%se1 = strel('disk', 5);%构造一个圆盘形状的20×20大小的元素 
 %openData = imopen(normalData, se1);%进行开操作
 %diffData=normalData-openData;
 backgroundthreshold= mean(median(normalData(500:1500,500:1500)))...
-    +3*std(median(normalData(500:1500,500:1500)));%阈值就是先取中位数再平均
+    +10*std(median(normalData(500:1500,500:1500)));%阈值就是先取中位数再平均
 asteroid=normalData>backgroundthreshold;
 % clean the picture 
 se2=strel('disk',3);
